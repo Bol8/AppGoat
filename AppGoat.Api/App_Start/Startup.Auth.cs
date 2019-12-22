@@ -10,6 +10,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using AppGoat.Api.Providers;
 using AppGoat.Api.Models;
+using AppGoat.Domain.Constants;
 
 namespace AppGoat.Api
 {
@@ -64,6 +65,43 @@ namespace AppGoat.Api
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+        }
+
+        public void CreateDefaultRolesAndUsers()
+        {
+            var context = new ApplicationDbContext();
+
+            var roleManager = new CustomRoleStore(context);
+            var userManager = new ApplicationUserManager(new CustomUserStore(context));
+
+
+            if (!roleManager.RoleExists(UserRoles.ADMIN))
+            {
+                var role = new CustomRole() { Name = UserRoles.ADMIN };
+                roleManager.Create(role);
+
+                var userAdmin = new ApplicationUser { Name = "Administrador", UserName = "Admin", Email = "Admin@es.com" };
+                var userPWD = "GoatStar_2020";
+                var result = userManager.Create(userAdmin, userPWD);
+
+                if (result.Succeeded)
+                {
+                    var res = userManager.AddToRole(userAdmin.Id, UserRoles.ADMIN);
+                }
+            }
+
+            if (!roleManager.RoleExists(UserRoles.SUPERVISOR))
+            {
+                var role = new CustomRole { Name = UserRoles.SUPERVISOR };
+                roleManager.Create(role);
+
+            }
+
+            if (!roleManager.RoleExists(UserRoles.OPERATOR))
+            {
+                var role = new CustomRole { Name = UserRoles.OPERATOR };
+                roleManager.Create(role);
+            }
         }
     }
 }
