@@ -11,6 +11,7 @@ using Owin;
 using AppGoat.Api.Providers;
 using AppGoat.Api.Models;
 using AppGoat.Domain.Constants;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace AppGoat.Api
 {
@@ -26,10 +27,27 @@ namespace AppGoat.Api
             // Configure el contexto de base de datos y el administrador de usuarios para usar una única instancia por solicitud
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
 
             // Permitir que la aplicación use una cookie para almacenar información para el usuario que inicia sesión
             // y una cookie para almacenar temporalmente información sobre un usuario que inicia sesión con un proveedor de inicio de sesión de terceros
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                LoginPath = new PathString("/Account/Login"),
+                Provider = new CookieAuthenticationProvider
+                {
+                    // Enables the application to validate the security stamp when the user logs in.
+                    // This is a security feature which is used when you change a password or add an external login to your account.  
+                    OnValidateIdentity = SecurityStampValidator
+                        .OnValidateIdentity<ApplicationUserManager, ApplicationUser, int>(
+                            validateInterval: TimeSpan.FromMinutes(30),
+                            regenerateIdentityCallback: (manager, user) =>
+                                user.GenerateUserIdentityAsync(manager, DefaultAuthenticationTypes.ApplicationCookie),
+                            getUserIdCallback: (id) => (id.GetUserId<int>()))
+                }
+            });
+
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Configure la aplicación para el flujo basado en OAuth
