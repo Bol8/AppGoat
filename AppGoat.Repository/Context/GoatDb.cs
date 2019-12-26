@@ -21,6 +21,7 @@ namespace AppGoat.Repository.Context
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new OfferMapper());
+            modelBuilder.Configurations.Add(new ColorPromoMapper());
         }
     }
 }

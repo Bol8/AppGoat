@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\GoatDb.cs" />
+    <Compile Include="Mappers\ColorPromoMapper.cs" />
     <Compile Include="Mappers\OfferMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />

@@ -207,6 +207,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountApiController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ColorPromoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OfferApiController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -282,6 +283,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
+    <Content Include="Views\ColorPromo\Index.cshtml" />
+    <Content Include="Views\ColorPromo\Create.cshtml" />
+    <Content Include="Views\ColorPromo\Edit.cshtml" />
+    <Content Include="Views\ColorPromo\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

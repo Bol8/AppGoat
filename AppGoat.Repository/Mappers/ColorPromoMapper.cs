@@ -3,18 +3,18 @@ using AppGoat.Domain.Entities;
 
 namespace AppGoat.Repository.Mappers
 {
-    internal class OfferMapper : EntityTypeConfiguration<Offer>
+    internal class ColorPromoMapper : EntityTypeConfiguration<ColorPromo>
     {
 
-        internal OfferMapper()
+        internal ColorPromoMapper()
         {
             ConfigureProperties();
             ConfigureRelations();
         }
 
-        private void ConfigureProperties()
+        private void ConfigureRelations()
         {
-            ToTable("Offer");
+            ToTable("Color");
 
             HasKey(x => x.Id)
                 .Property(x => x.Id)
@@ -27,24 +27,14 @@ namespace AppGoat.Repository.Mappers
                 .IsUnicode(false)
                 .IsRequired();
 
-            Property(x => x.Description)
-                .HasColumnName("Description")
-                .HasMaxLength(550)
-                .IsUnicode(false)
-                .IsOptional();
-
-            Property(x => x.ColorCode)
-                .HasColumnName("ColorCode")
+            Property(x => x.Code)
+                .HasColumnName("Code")
                 .HasMaxLength(50)
-                .IsOptional();
-
-            Property(x => x.IsActive)
-                .HasColumnName("IsActive")
+                .IsUnicode(false)
                 .IsRequired();
-
         }
 
-        private void ConfigureRelations()
+        private void ConfigureProperties()
         {
 
         }
