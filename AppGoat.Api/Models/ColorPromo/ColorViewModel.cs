@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Drawing;
 
 namespace AppGoat.Api.Models.ColorPromo
 {
-    public class ColorCreateViewModel
+    public class ColorViewModel
     {
         [Display(Name = "Id")]
         public byte Id { get; set; }
@@ -12,6 +11,6 @@ namespace AppGoat.Api.Models.ColorPromo
         public string Name { get; set; }
 
         [Display(Name = "Color")]
-        public Color Color { get; set; }
+        public string Code { get; set; }
     }
 }

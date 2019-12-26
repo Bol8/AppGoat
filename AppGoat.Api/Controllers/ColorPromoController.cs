@@ -60,40 +60,51 @@ namespace AppGoat.Api.Controllers
         }
 
         // GET: ColorPromo/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(byte id)
         {
-            return View();
+            var color = _colorPromoAppService.GetColor(id);
+            var model = Mapper.Map<ColorPromo, ColorCreateViewModel>(color);
+            return View(model);
         }
 
         // POST: ColorPromo/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(ColorCreateViewModel model)
         {
             try
             {
-                // TODO: Add update logic here
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                var color = Mapper.Map<ColorCreateViewModel, ColorPromo>(model);
+                _colorPromoAppService.Edit(color);
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }
         }
 
         // GET: ColorPromo/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(byte id)
         {
-            return View();
+            var color = _colorPromoAppService.GetColor(id);
+            var model = Mapper.Map<ColorPromo, ColorViewModel>(color);
+
+            return View(model);
         }
 
         // POST: ColorPromo/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(ColorViewModel model)
         {
             try
             {
-                // TODO: Add delete logic here
+                _colorPromoAppService.Delete(model.Id);
 
                 return RedirectToAction("Index");
             }
