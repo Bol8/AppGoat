@@ -37,7 +37,9 @@ namespace AppGoat.Repository.Mappers
 
         private void ConfigureRelations()
         {
-
+            HasMany(x => x.Offers)
+                .WithRequired(x => x.Color)
+                .HasForeignKey(x => x.IdColor);
         }
     }
 }

@@ -7,6 +7,7 @@ namespace AppGoat.Api.Configurations.Profiles
         public AutoMapperProfile()
         {
             LoadColorPromoProfile();
+            LoadOfferProfile();
         }
     }
 }

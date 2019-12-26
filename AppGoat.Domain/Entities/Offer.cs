@@ -11,5 +11,9 @@
         public string ColorCode { get; set; }
 
         public bool IsActive { get; set; }
+
+        public byte IdColor { get; set; }
+
+        public virtual ColorPromo Color { get; set; }
     }
 }
