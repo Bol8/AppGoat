@@ -1,4 +1,5 @@
-﻿using System.Data.Entity.ModelConfiguration;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.ModelConfiguration;
 using AppGoat.Domain.Entities;
 
 namespace AppGoat.Repository.Mappers
@@ -12,12 +13,13 @@ namespace AppGoat.Repository.Mappers
             ConfigureRelations();
         }
 
-        private void ConfigureRelations()
+        private void ConfigureProperties()
         {
             ToTable("Color");
 
             HasKey(x => x.Id)
                 .Property(x => x.Id)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)
                 .HasColumnName("Id")
                 .IsRequired();
 
@@ -30,11 +32,10 @@ namespace AppGoat.Repository.Mappers
             Property(x => x.Code)
                 .HasColumnName("Code")
                 .HasMaxLength(50)
-                .IsUnicode(false)
                 .IsRequired();
         }
 
-        private void ConfigureProperties()
+        private void ConfigureRelations()
         {
 
         }

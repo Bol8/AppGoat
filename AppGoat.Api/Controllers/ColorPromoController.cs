@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using AppGoat.Api.Models.ColorPromo;
+﻿using AppGoat.Api.Models.ColorPromo;
 using AppGoat.Application.Services;
-using AppGoat.Domain.RepositoryServices;
+using AppGoat.Domain.Entities;
 using AppGoat.Repository.Context;
 using AppGoat.Repository.Repositories;
+using AutoMapper;
+using System;
+using System.Web.Mvc;
 
 namespace AppGoat.Api.Controllers
 {
@@ -45,11 +43,17 @@ namespace AppGoat.Api.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                var color = Mapper.Map<ColorCreateViewModel, ColorPromo>(model);
+                _colorPromoAppService.Add(color);
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }
