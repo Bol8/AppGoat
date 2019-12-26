@@ -46,6 +46,7 @@
     <Compile Include="Entities\Offer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryServices\IBaseRepository.cs" />
+    <Compile Include="RepositoryServices\IColorPromoRepository.cs" />
     <Compile Include="RepositoryServices\IOfferRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

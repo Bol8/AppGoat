@@ -3,15 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AppGoat.Api.Models.ColorPromo;
+using AppGoat.Application.Services;
+using AppGoat.Domain.RepositoryServices;
+using AppGoat.Repository.Context;
+using AppGoat.Repository.Repositories;
 
 namespace AppGoat.Api.Controllers
 {
     public class ColorPromoController : Controller
     {
+        private readonly IColorPromoAppService _colorPromoAppService;
+
+        public ColorPromoController()
+        {
+            _colorPromoAppService = new ColorPromoAppService(new ColorPromoRepository(new GoatDb()));
+        }
+
         // GET: ColorPromo
         public ActionResult Index()
         {
-            return View();
+            var colors = _colorPromoAppService.GetColors();
+            return View(colors);
         }
 
         // GET: ColorPromo/Details/5
@@ -28,7 +41,7 @@ namespace AppGoat.Api.Controllers
 
         // POST: ColorPromo/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(ColorCreateViewModel model)
         {
             try
             {

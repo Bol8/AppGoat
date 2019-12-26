@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ColorPromoAppService.cs" />
+    <Compile Include="Services\IColorPromoAppService.cs" />
     <Compile Include="Services\IOfferAppService.cs" />
     <Compile Include="Services\OfferAppService.cs" />
   </ItemGroup>

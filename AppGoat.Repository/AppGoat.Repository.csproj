@@ -59,6 +59,7 @@
     <Compile Include="Mappers\OfferMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\ColorPromoRepository.cs" />
     <Compile Include="Repositories\FakeOfferRepository.cs" />
     <Compile Include="Repositories\OfferRepository.cs" />
   </ItemGroup>
