@@ -36,7 +36,7 @@ namespace AppGoat.Api.Controllers
         }
 
         // GET: api/OfferApi/5
-        public Offer Get(int id)
+        public Offer Get(short id)
         {
             var offer = _offerAppService.GetOffer(id);
             return offer;
@@ -71,7 +71,7 @@ namespace AppGoat.Api.Controllers
         }
 
         // DELETE: api/OfferApi/5
-        public IHttpActionResult Delete(int id)
+        public IHttpActionResult Delete(short id)
         {
             try
             {

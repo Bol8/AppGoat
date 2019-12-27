@@ -17,7 +17,7 @@ namespace AppGoat.Api.Controllers
 {
     public class OfferController : Controller
     {
-        private IOfferAppService _offerAppService;
+        private readonly IOfferAppService _offerAppService;
         private GoatDb db = new GoatDb();
 
         public OfferController()
@@ -42,13 +42,9 @@ namespace AppGoat.Api.Controllers
         }
 
         // GET: Offer/Details/5
-        public ActionResult Details(short? id)
+        public ActionResult Details(short id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Offer offer = db.Offer.Find(id);
+            var offer = _offerAppService.GetOffer(id);
             if (offer == null)
             {
                 return HttpNotFound();
@@ -59,7 +55,8 @@ namespace AppGoat.Api.Controllers
         // GET: Offer/Create
         public ActionResult Create()
         {
-            return View();
+            var model = new OfferCreateViewModel(db.Colors);
+            return View(model);
         }
 
         // POST: Offer/Create
@@ -67,31 +64,41 @@ namespace AppGoat.Api.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,ColorCode,IsActive")] Offer offer)
+        public ActionResult Create(OfferCreateViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Offer.Add(offer);
-                db.SaveChanges();
+                if (!ModelState.IsValid)
+                {
+                    model.LoadCollections(db.Colors);
+                    return View(model);
+                }
+
+                var offer = Mapper.Map<OfferCreateViewModel, Offer>(model);
+                _offerAppService.Add(offer);
+
                 return RedirectToAction("Index");
             }
-
-            return View(offer);
+            catch (Exception e)
+            {
+                model.LoadCollections(db.Colors);
+                return View(model);
+            }
         }
 
         // GET: Offer/Edit/5
-        public ActionResult Edit(short? id)
+        public ActionResult Edit(short id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Offer offer = db.Offer.Find(id);
+            var offer = _offerAppService.GetOffer(id);
             if (offer == null)
             {
                 return HttpNotFound();
             }
-            return View(offer);
+
+            var model = Mapper.Map<Offer, OfferCreateViewModel>(offer);
+            model.LoadCollections(db.Colors);
+
+            return View(model);
         }
 
         // POST: Offer/Edit/5
@@ -99,29 +106,37 @@ namespace AppGoat.Api.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,ColorCode,IsActive")] Offer offer)
+        public ActionResult Edit(OfferCreateViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(offer).State = EntityState.Modified;
-                db.SaveChanges();
+                if (!ModelState.IsValid)
+                {
+                    model.LoadCollections(db.Colors);
+                    return View(model);
+                }
+
+                var offer = Mapper.Map<OfferCreateViewModel, Offer>(model);
+                _offerAppService.Edit(offer);
+
                 return RedirectToAction("Index");
             }
-            return View(offer);
+            catch (Exception e)
+            {
+                model.LoadCollections(db.Colors);
+                return View(model);
+            }
         }
 
         // GET: Offer/Delete/5
-        public ActionResult Delete(short? id)
+        public ActionResult Delete(short id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Offer offer = db.Offer.Find(id);
+            var offer = _offerAppService.GetOffer(id);
             if (offer == null)
             {
                 return HttpNotFound();
             }
+
             return View(offer);
         }
 
@@ -130,10 +145,15 @@ namespace AppGoat.Api.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(short id)
         {
-            Offer offer = db.Offer.Find(id);
-            db.Offer.Remove(offer);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                _offerAppService.Delete(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+               return new HttpStatusCodeResult(HttpStatusCode.Conflict);
+            }
         }
 
         protected override void Dispose(bool disposing)

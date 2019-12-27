@@ -7,12 +7,12 @@ namespace AppGoat.Application.Services
     {
         IEnumerable<Offer> GetOffers();
 
-        Offer GetOffer(int id);
+        Offer GetOffer(short id);
 
         void Add(Offer offer);
 
         void Edit(Offer offer);
 
-        void Delete(int id);
+        void Delete(short id);
     }
 }

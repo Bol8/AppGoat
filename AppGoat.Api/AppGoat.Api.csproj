@@ -230,6 +230,7 @@
     <Compile Include="Models\ColorPromo\ColorViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Login\AccountViewModels.cs" />
+    <Compile Include="Models\Offer\OfferCreateViewModel.cs" />
     <Compile Include="Models\Offer\OfferViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />

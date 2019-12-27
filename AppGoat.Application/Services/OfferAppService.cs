@@ -19,7 +19,7 @@ namespace AppGoat.Application.Services
             return _offerRepository.GetElements();
         }
 
-        public Offer GetOffer(int id)
+        public Offer GetOffer(short id)
         {
             return _offerRepository.GetElement(id);
         }
@@ -52,7 +52,7 @@ namespace AppGoat.Application.Services
             }
         }
 
-        public void Delete(int id)
+        public void Delete(short id)
         {
             try
             {

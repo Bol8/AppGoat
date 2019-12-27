@@ -11,6 +11,7 @@ namespace AppGoat.Repository.Context
     public partial class GoatDb : DbContext
     {
         public virtual DbSet<Offer> Offer { get; set; }
+        public virtual DbSet<ColorPromo> Colors { get; set; }
 
 
         public GoatDb()
