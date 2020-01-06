@@ -159,6 +159,7 @@ namespace AppGoat.Api.Controllers
         {
             try
             {
+
                 var offer = _offerAppService.GetOffer(id);
                 var appCenter = new AppCenter(new Dictionary<Guid, string>
                 {
