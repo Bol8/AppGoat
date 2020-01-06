@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AppGoat.Domain.Entities;
 
 namespace AppGoat.Application.Services
@@ -14,5 +15,7 @@ namespace AppGoat.Application.Services
         void Edit(Offer offer);
 
         void Delete(short id);
+
+        Task<bool> SendPushNotificationAsync(short id);
     }
 }

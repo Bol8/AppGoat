@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,11 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\AppCenterKeys.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ColorPromoAppService.cs" />
     <Compile Include="Services\IColorPromoAppService.cs" />
     <Compile Include="Services\IOfferAppService.cs" />
     <Compile Include="Services\OfferAppService.cs" />
+    <Compile Include="Utils\Extensions\ObjectExtensions.cs" />
+    <Compile Include="Utils\Notifications\AppCenter.cs" />
+    <Compile Include="Utils\Notifications\CustomData.cs" />
+    <Compile Include="Utils\Notifications\DeviceKeys.cs" />
+    <Compile Include="Utils\Notifications\NotificationContent.cs" />
+    <Compile Include="Utils\Notifications\NotificationTarget.cs" />
+    <Compile Include="Utils\Notifications\PushNotification.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AppGoat.Domain\AppGoat.Domain.csproj">
@@ -61,6 +72,9 @@
       <Name>AppGoat.Repository</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

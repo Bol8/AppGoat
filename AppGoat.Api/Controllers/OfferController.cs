@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using AppGoat.Api.Models.Offer;
+﻿using AppGoat.Api.Models.Offer;
+using AppGoat.Application.Constants;
 using AppGoat.Application.Services;
+using AppGoat.Application.Utils.Notifications;
 using AppGoat.Domain.Entities;
 using AppGoat.Repository.Context;
 using AppGoat.Repository.Repositories;
 using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace AppGoat.Api.Controllers
 {
@@ -152,8 +151,28 @@ namespace AppGoat.Api.Controllers
             }
             catch (Exception e)
             {
-               return new HttpStatusCodeResult(HttpStatusCode.Conflict);
+                return new HttpStatusCodeResult(HttpStatusCode.Conflict);
             }
+        }
+
+        public async Task<ActionResult> PublishAsync(short id)
+        {
+            try
+            {
+                var offer = _offerAppService.GetOffer(id);
+                var appCenter = new AppCenter(new Dictionary<Guid, string>
+                {
+                    {new Guid("2cb316d8-9029-4333-9002-427da5b51e73"), "Android"}
+                });
+
+                var res = await appCenter.SendPushNotificationAsync(offer.Name, offer.Description, null);
+            }
+            catch (Exception e)
+            {
+                return await Task.FromResult<ActionResult>(new HttpStatusCodeResult(HttpStatusCode.Conflict));
+            }
+
+            return await Task.FromResult<ActionResult>(RedirectToAction("Index"));
         }
 
         protected override void Dispose(bool disposing)

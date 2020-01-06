@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AppGoat.Domain.Entities;
 using AppGoat.Domain.RepositoryServices;
 
@@ -64,6 +65,11 @@ namespace AppGoat.Application.Services
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        public Task<bool> SendPushNotificationAsync(short id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
