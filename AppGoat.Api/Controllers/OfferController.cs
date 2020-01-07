@@ -161,10 +161,7 @@ namespace AppGoat.Api.Controllers
             {
 
                 var offer = _offerAppService.GetOffer(id);
-                var appCenter = new AppCenter(new Dictionary<Guid, string>
-                {
-                    {new Guid("2cb316d8-9029-4333-9002-427da5b51e73"), "Android"}
-                });
+                var appCenter = new AppCenter();
 
                 var res = await appCenter.SendPushNotificationAsync(offer.Name, offer.Description, null);
             }

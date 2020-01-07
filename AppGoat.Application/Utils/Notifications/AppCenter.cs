@@ -13,6 +13,8 @@ namespace AppGoat.Application.Utils.Notifications
     {
         private readonly DeviceKeys _deviceKeys;
 
+        public AppCenter() { }
+
         public AppCenter(Dictionary<Guid, string> dicInstallIdPlatform)
         {
             _deviceKeys = new DeviceKeys();
@@ -36,6 +38,33 @@ namespace AppGoat.Application.Utils.Notifications
 
 
         public async Task<bool> SendPushNotificationAsync(string title, string message, CustomData customData)
+        {
+            bool notificationResult = false;
+
+            if (_deviceKeys == null)
+            {
+                notificationResult = await SendPushNotificationByAllDevices(title, message, customData);
+            }
+            else
+            {
+                notificationResult = await SendPushNotificationByAllDevices(title, message, customData);
+            }
+
+            return notificationResult;
+        }
+
+        private async Task<bool> SendPushNotificationByAllDevices(string title, string message, CustomData customData)
+        {
+            bool notificationResult = false;
+
+            var pushNotification = GetPushNotificationObject(title, message, customData, null);
+            var url = GetPushNotificationUrl(AppCenterKeys.AndroidAppName);
+            notificationResult = await SendPushNotification(pushNotification, url);
+
+            return notificationResult;
+        }
+
+        private async Task<bool> SendPushNotificationByDevices(string title, string message, CustomData customData)
         {
             bool notificationResult = false;
 
@@ -64,11 +93,17 @@ namespace AppGoat.Application.Utils.Notifications
         private PushNotification GetPushNotificationObject(string title, string message, CustomData customData,
             List<string> devices)
         {
-            var notificationTarget = new NotificationTarget
+            NotificationTarget notificationTarget = null;
+
+            if (devices != null)
             {
-                type = AppCenterKeys.DeviceTargetName,
-                devices = devices
-            };
+                notificationTarget = new NotificationTarget
+                {
+                    type = AppCenterKeys.DeviceTargetName,
+                    devices = devices
+                };
+            }
+          
 
             var notificationContent = new NotificationContent
             {
